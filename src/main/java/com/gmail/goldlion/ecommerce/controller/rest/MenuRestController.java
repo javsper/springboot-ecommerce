@@ -1,6 +1,8 @@
 package com.gmail.goldlion.ecommerce.controller.rest;
 
 import com.gmail.goldlion.ecommerce.domain.Perfume;
+import com.gmail.goldlion.ecommerce.domain.dto.PerfumeSearchFilterDto;
+import com.gmail.goldlion.ecommerce.repository.PerfumeRepository;
 import com.gmail.goldlion.ecommerce.service.PerfumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,20 +15,18 @@ import java.util.List;
 public class MenuRestController {
 
     private final PerfumeService perfumeService;
+    private final PerfumeRepository perfumeRepository;
 
     @Autowired
-    public MenuRestController(PerfumeService perfumeService) {
+    public MenuRestController(PerfumeService perfumeService, PerfumeRepository perfumeRepository) {
         this.perfumeService = perfumeService;
+        this.perfumeRepository = perfumeRepository;
     }
 
     @PostMapping("/menu/search")
-    public ResponseEntity<?> getProductsByFilterParams(@RequestBody List<String> perfumer) {
-        List<Perfume> perfumes = perfumeService.findAll();
+    public ResponseEntity<?> getProductsByFilterParams(@RequestBody PerfumeSearchFilterDto filterDto) {
+        List<Perfume> filter = perfumeService.filter(filterDto.getPerfumer(), filterDto.getGender(), filterDto.getPrice());
 
-        if (!perfumer.isEmpty()) {
-            perfumes = perfumeService.findByPerfumerIn(perfumer);
-        }
-
-        return ResponseEntity.ok(perfumes);
+        return ResponseEntity.ok(filter);
     }
 }
