@@ -1,7 +1,7 @@
 package com.gmail.goldlion.ecommerce.controller.rest;
 
 import com.gmail.goldlion.ecommerce.domain.User;
-import com.gmail.goldlion.ecommerce.domain.dto.AuthenticationRequestDTO;
+import com.gmail.goldlion.ecommerce.dto.AuthenticationRequestDTO;
 import com.gmail.goldlion.ecommerce.security.JwtProvider;
 import com.gmail.goldlion.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

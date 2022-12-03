@@ -1,4 +1,4 @@
-package com.gmail.goldlion.ecommerce.domain.dto;
+package com.gmail.goldlion.ecommerce.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

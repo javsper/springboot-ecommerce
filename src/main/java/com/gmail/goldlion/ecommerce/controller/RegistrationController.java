@@ -1,7 +1,7 @@
 package com.gmail.goldlion.ecommerce.controller;
 
 import com.gmail.goldlion.ecommerce.domain.User;
-import com.gmail.goldlion.ecommerce.domain.dto.CaptchaResponseDto;
+import com.gmail.goldlion.ecommerce.dto.CaptchaResponseDto;
 import com.gmail.goldlion.ecommerce.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

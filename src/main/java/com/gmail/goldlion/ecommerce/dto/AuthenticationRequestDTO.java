@@ -1,4 +1,4 @@
-package com.gmail.goldlion.ecommerce.domain.dto;
+package com.gmail.goldlion.ecommerce.dto;
 
 import lombok.Data;
 
