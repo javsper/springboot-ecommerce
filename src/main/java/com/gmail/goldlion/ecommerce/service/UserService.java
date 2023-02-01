@@ -1,5 +1,6 @@
 package com.gmail.goldlion.ecommerce.service;
 
+import com.gmail.goldlion.ecommerce.domain.Review;
 import com.gmail.goldlion.ecommerce.domain.User;
 import com.gmail.goldlion.ecommerce.dto.PasswordResetDto;
 import com.gmail.goldlion.ecommerce.service.Impl.UserServiceImpl;
@@ -130,4 +131,12 @@ public interface UserService {
      * @param email     the user's email to be changed.
      */
     void updateProfile(User user, String password, String email);
+
+    /**
+     * Save perfume review.
+     *
+     * @param review    review for current perfume with author and message
+     * @param perfumeId perfume id in database
+     */
+    void addReviewToPerfume(Review review, Long perfumeId);
 }
