@@ -3,7 +3,7 @@ package com.gmail.goldlion.ecommerce.dto;
 import lombok.Data;
 
 @Data
-public class AuthenticationRequestDTO {
+public class AuthenticationRequestDto {
     private String email;
     private String password;
 }
