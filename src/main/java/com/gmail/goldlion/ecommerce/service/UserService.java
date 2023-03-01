@@ -1,5 +1,6 @@
 package com.gmail.goldlion.ecommerce.service;
 
+import com.gmail.goldlion.ecommerce.domain.Perfume;
 import com.gmail.goldlion.ecommerce.domain.Review;
 import com.gmail.goldlion.ecommerce.domain.User;
 
@@ -21,6 +22,14 @@ public interface UserService {
     User findByPasswordResetCode(String code);
 
     User saveUser(User user);
+
+    List<Perfume> getCart(String email);
+
+    void addToCart(Perfume perfume, String email);
+
+    List<Perfume> removeFromCart(Perfume perfume, String email);
+
+    Map<String, Object> login(String email);
 
     boolean addUser(User user);
 

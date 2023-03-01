@@ -1,8 +1,9 @@
 package com.gmail.goldlion.ecommerce.controller;
 
+import com.gmail.goldlion.ecommerce.domain.User;
 import com.gmail.goldlion.ecommerce.dto.OrderDto;
 import com.gmail.goldlion.ecommerce.dto.PerfumeDto;
-import com.gmail.goldlion.ecommerce.dto.UserDto;
+import com.gmail.goldlion.ecommerce.exception.InputFieldException;
 import com.gmail.goldlion.ecommerce.mapper.OrderMapper;
 import com.gmail.goldlion.ecommerce.mapper.UserMapper;
 import org.springframework.http.ResponseEntity;
@@ -26,32 +27,28 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PerfumeDto>> getOrder(@AuthenticationPrincipal UserDto userDto) {
-        UserDto user = userMapper.findByEmail(userDto.getEmail());
-        return ResponseEntity.ok(user.getPerfumeList());
+    public ResponseEntity<List<PerfumeDto>> getOrder(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(userMapper.getCart(user.getEmail()));
     }
 
     @PostMapping
-    public ResponseEntity<?> postOrder(@AuthenticationPrincipal UserDto userDto,
-                                       @Valid @RequestBody OrderDto orderDto,
-                                       BindingResult bindingResult) {
+    public ResponseEntity<OrderDto> postOrder(@AuthenticationPrincipal User user,
+                                              @Valid @RequestBody OrderDto orderDto,
+                                              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(ControllerUtils.getErrors(bindingResult));
+            throw new InputFieldException(bindingResult);
         } else {
-            return ResponseEntity.ok(orderMapper.postOrder(orderDto, userDto.getEmail()));
+            return ResponseEntity.ok(orderMapper.postOrder(orderDto, user.getEmail()));
         }
     }
 
     @GetMapping("/finalize")
     public ResponseEntity<Long> finalizeOrder() {
-        List<OrderDto> orderDtoList = orderMapper.findAll();
-        OrderDto orderIndex = orderDtoList.get(orderDtoList.size() - 1);
-        return ResponseEntity.ok(orderIndex.getId());
+        return ResponseEntity.ok(orderMapper.finalizeOrder());
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<OrderDto>> getUserOrdersList(@AuthenticationPrincipal UserDto userDto) {
-        UserDto user = userMapper.findByEmail(userDto.getEmail());
+    public ResponseEntity<List<OrderDto>> getUserOrdersList(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok(orderMapper.findOrderByUser(user));
     }
 }
