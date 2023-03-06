@@ -1,13 +1,11 @@
-package com.gmail.goldlion.ecommerce.dto;
+package com.gmail.goldlion.ecommerce.dto.review;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class ReviewDto {
-
-    private Long id;
+public class ReviewDtoIn {
 
     @NotBlank(message = "Fill in the input field")
     private String author;
