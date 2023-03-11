@@ -2,6 +2,7 @@ package com.gmail.goldlion.ecommerce.dto.perfume;
 
 import com.gmail.goldlion.ecommerce.dto.review.ReviewDtoOut;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,4 +23,5 @@ public class PerfumeDtoOut {
     private String volume;
     private String type;
     private List<ReviewDtoOut> reviews;
+    private MultipartFile file;
 }
