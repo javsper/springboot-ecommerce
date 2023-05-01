@@ -1,9 +1,10 @@
 package com.gmail.goldlion.ecommerce.controller;
 
-import com.gmail.goldlion.ecommerce.dto.order.OrderDtoOut;
-import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeDtoIn;
-import com.gmail.goldlion.ecommerce.dto.user.UserDtoIn;
-import com.gmail.goldlion.ecommerce.dto.user.UserDtoOut;
+import com.gmail.goldlion.ecommerce.dto.order.OrderResponseDto;
+import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeRequestDto;
+import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeResponseDto;
+import com.gmail.goldlion.ecommerce.dto.user.UserRequestDto;
+import com.gmail.goldlion.ecommerce.dto.user.UserResponseDto;
 import com.gmail.goldlion.ecommerce.exception.InputFieldException;
 import com.gmail.goldlion.ecommerce.mapper.OrderMapper;
 import com.gmail.goldlion.ecommerce.mapper.PerfumeMapper;
@@ -30,9 +31,9 @@ public class AdminController {
     private final OrderMapper orderMapper;
 
     @PostMapping("/add")
-    public ResponseEntity<PerfumeDtoIn> addPerfume(@RequestPart(name = "file", required = false) MultipartFile file,
-                                                   @RequestPart("perfume") @Valid PerfumeDtoIn perfume,
-                                                   BindingResult bindingResult) {
+    public ResponseEntity<PerfumeResponseDto> addPerfume(@RequestPart(name = "file", required = false) MultipartFile file,
+                                                         @RequestPart("perfume") @Valid PerfumeRequestDto perfume,
+                                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
@@ -41,9 +42,9 @@ public class AdminController {
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<PerfumeDtoIn> updatePerfume(@RequestPart(name = "file", required = false) MultipartFile file,
-                                                      @RequestPart("perfume") @Valid PerfumeDtoIn perfume,
-                                                      BindingResult bindingResult) {
+    public ResponseEntity<PerfumeResponseDto> updatePerfume(@RequestPart(name = "file", required = false) MultipartFile file,
+                                                            @RequestPart("perfume") @Valid PerfumeRequestDto perfume,
+                                                            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
@@ -52,24 +53,24 @@ public class AdminController {
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<List<OrderDtoOut>> getAllOrders() {
+    public ResponseEntity<List<OrderResponseDto>> getAllOrders() {
         return ResponseEntity.ok(orderMapper.findAllOrders());
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<UserDtoOut> getUser(@PathVariable("id") Long userId) {
+    public ResponseEntity<UserResponseDto> getUser(@PathVariable("id") Long userId) {
         return ResponseEntity.ok(userMapper.findUserById(userId));
     }
 
     @GetMapping("/user/all")
-    public ResponseEntity<List<UserDtoOut>> getAllUsers() {
+    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
         return ResponseEntity.ok(userMapper.findAllUsers());
     }
 
     @PutMapping("/user/edit")
     public ResponseEntity<String> updateUser(@RequestParam String username,
                                              @RequestParam Map<String, String> form,
-                                             @RequestParam("userId") UserDtoIn userDto) {
+                                             @RequestParam("userId") UserRequestDto userDto) {
         userMapper.userSave(username, form, userDto);
         return ResponseEntity.ok("User updated successfully.");
     }
