@@ -3,7 +3,6 @@ package com.gmail.goldlion.ecommerce.service.Impl;
 import com.gmail.goldlion.ecommerce.domain.Order;
 import com.gmail.goldlion.ecommerce.domain.OrderItem;
 import com.gmail.goldlion.ecommerce.domain.Perfume;
-import com.gmail.goldlion.ecommerce.dto.order.OrderDtoIn;
 import com.gmail.goldlion.ecommerce.repository.OrderItemRepository;
 import com.gmail.goldlion.ecommerce.repository.OrderRepository;
 import com.gmail.goldlion.ecommerce.repository.PerfumeRepository;
@@ -125,5 +124,10 @@ public class OrderServiceImplTest {
         assertEquals(ORDER_EMAIL, order.getEmail());
         assertNotNull(orderItem1);
         assertNotNull(orderItem2);
+        verify(mailSender, times(1))
+                .send(
+                        ArgumentMatchers.eq(order.getEmail()),
+                        ArgumentMatchers.eq("Order #" + order.getId()),
+                        ArgumentMatchers.anyString());
     }
 }
