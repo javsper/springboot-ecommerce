@@ -12,6 +12,7 @@ import com.gmail.goldlion.ecommerce.exception.PasswordException;
 import com.gmail.goldlion.ecommerce.mapper.OrderMapper;
 import com.gmail.goldlion.ecommerce.mapper.UserMapper;
 import com.gmail.goldlion.ecommerce.security.UserPrincipal;
+import com.gmail.goldlion.ecommerce.utils.swagger.UserAPI;
 import com.gmail.goldlion.ecommerce.utils.ControllerUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/users")
-public class UserController {
+public class UserController implements UserAPI {
 
     private final UserMapper userMapper;
     private final OrderMapper orderMapper;
