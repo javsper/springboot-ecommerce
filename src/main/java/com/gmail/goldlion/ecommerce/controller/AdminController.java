@@ -9,7 +9,6 @@ import com.gmail.goldlion.ecommerce.exception.InputFieldException;
 import com.gmail.goldlion.ecommerce.mapper.OrderMapper;
 import com.gmail.goldlion.ecommerce.mapper.PerfumeMapper;
 import com.gmail.goldlion.ecommerce.mapper.UserMapper;
-import com.gmail.goldlion.ecommerce.utils.swagger.AdminAPI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,7 +24,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/api/v1/admin")
-public class AdminController implements AdminAPI {
+public class AdminController {
 
     private final UserMapper userMapper;
     private final PerfumeMapper perfumeMapper;

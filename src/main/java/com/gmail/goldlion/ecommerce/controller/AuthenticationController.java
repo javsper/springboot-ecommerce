@@ -8,7 +8,6 @@ import com.gmail.goldlion.ecommerce.exception.PasswordConfirmationException;
 import com.gmail.goldlion.ecommerce.exception.PasswordException;
 import com.gmail.goldlion.ecommerce.mapper.UserMapper;
 import com.gmail.goldlion.ecommerce.utils.ControllerUtils;
-import com.gmail.goldlion.ecommerce.utils.swagger.AuthenticationAPI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
-public class AuthenticationController implements AuthenticationAPI {
+public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;

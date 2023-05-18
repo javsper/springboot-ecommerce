@@ -6,7 +6,6 @@ import com.gmail.goldlion.ecommerce.exception.EmailException;
 import com.gmail.goldlion.ecommerce.exception.InputFieldException;
 import com.gmail.goldlion.ecommerce.exception.PasswordException;
 import com.gmail.goldlion.ecommerce.mapper.UserMapper;
-import com.gmail.goldlion.ecommerce.utils.swagger.RegistrationAPI;
 import com.gmail.goldlion.ecommerce.utils.ControllerUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +20,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/registration")
-public class RegistrationController implements RegistrationAPI {
+public class RegistrationController {
 
     @Value("${recaptcha.secret}")
     private String secret;
