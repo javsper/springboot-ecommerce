@@ -4,7 +4,7 @@ import com.gmail.goldlion.ecommerce.domain.Perfume;
 import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeRequestDto;
 import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeResponseDto;
 import com.gmail.goldlion.ecommerce.service.PerfumeService;
-import com.gmail.goldlion.ecommerce.service.graphql.GraphQLPerfumeProvider;
+import com.gmail.goldlion.ecommerce.service.graphql.GraphQLProvider;
 import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -20,7 +20,7 @@ public class PerfumeMapper {
 
     private final ModelMapper modelMapper;
     private final PerfumeService perfumeService;
-    private final GraphQLPerfumeProvider perfumeProvider;
+    private final GraphQLProvider perfumeProvider;
 
     private Perfume convertToEntity(PerfumeRequestDto perfumeRequestDto) {
         return modelMapper.map(perfumeRequestDto, Perfume.class);
