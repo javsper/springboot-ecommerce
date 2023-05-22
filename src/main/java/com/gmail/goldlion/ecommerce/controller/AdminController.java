@@ -1,5 +1,6 @@
 package com.gmail.goldlion.ecommerce.controller;
 
+import com.gmail.goldlion.ecommerce.dto.GraphQLRequestDto;
 import com.gmail.goldlion.ecommerce.dto.order.OrderResponseDto;
 import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeRequestDto;
 import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeResponseDto;
@@ -9,6 +10,8 @@ import com.gmail.goldlion.ecommerce.exception.InputFieldException;
 import com.gmail.goldlion.ecommerce.mapper.OrderMapper;
 import com.gmail.goldlion.ecommerce.mapper.PerfumeMapper;
 import com.gmail.goldlion.ecommerce.mapper.UserMapper;
+import com.gmail.goldlion.ecommerce.service.graphql.GraphQLProvider;
+import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +31,7 @@ public class AdminController {
     private final UserMapper userMapper;
     private final PerfumeMapper perfumeMapper;
     private final OrderMapper orderMapper;
+    private final GraphQLProvider graphQLProvider;
 
     @PostMapping("/add")
     public ResponseEntity<PerfumeResponseDto> addPerfume(@RequestPart(name = "file", required = false) MultipartFile file,
@@ -72,11 +75,23 @@ public class AdminController {
         return ResponseEntity.ok(userMapper.findAllUsers());
     }
 
-    @PutMapping("/user/edit")
-    public ResponseEntity<String> updateUser(@RequestParam String username,
-                                             @RequestParam Map<String, String> form,
-                                             @RequestParam("userId") UserRequestDto userDto) {
-        userMapper.userSave(username, form, userDto);
-        return ResponseEntity.ok("User updated successfully.");
+    @PostMapping("/graphql/user")
+    public ResponseEntity<ExecutionResult> getUserByQuery(@RequestBody GraphQLRequestDto request) {
+        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
+    }
+
+    @PostMapping("/graphql/user/all")
+    public ResponseEntity<ExecutionResult> getAllUsersByQuery(@RequestBody GraphQLRequestDto request) {
+        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
+    }
+
+    @PostMapping("/graphql/orders")
+    public ResponseEntity<ExecutionResult> getAllOrdersQuery(@RequestBody GraphQLRequestDto request) {
+        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
+    }
+
+    @PostMapping("/graphql/order")
+    public ResponseEntity<ExecutionResult> getUserOrdersByEmailQuery(@RequestBody GraphQLRequestDto request) {
+        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 }

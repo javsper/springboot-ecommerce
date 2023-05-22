@@ -1,7 +1,6 @@
 package com.gmail.goldlion.ecommerce.service;
 
 import com.gmail.goldlion.ecommerce.domain.Order;
-import com.gmail.goldlion.ecommerce.domain.Perfume;
 import graphql.schema.DataFetcher;
 
 import java.util.List;
@@ -18,6 +17,10 @@ public interface OrderService {
     Long finalizeOrder();
 
     DataFetcher<List<Order>> getAllOrdersByQuery();
+
+    DataFetcher<List<Order>> getUserOrdersByEmailQuery();
+
+    DataFetcher<List<Order>> getUserOrdersByQuery();
 
     DataFetcher<Order> getOrderByQuery();
 }

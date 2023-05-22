@@ -1,12 +1,10 @@
 package com.gmail.goldlion.ecommerce.service;
 
-import com.gmail.goldlion.ecommerce.domain.Order;
 import com.gmail.goldlion.ecommerce.domain.Perfume;
 import com.gmail.goldlion.ecommerce.domain.Review;
 import com.gmail.goldlion.ecommerce.domain.User;
 import com.gmail.goldlion.ecommerce.security.oauth2.OAuth2UserInfo;
 import graphql.schema.DataFetcher;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 
 import java.util.List;
 import java.util.Map;
