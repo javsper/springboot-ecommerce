@@ -1,6 +1,7 @@
 package com.gmail.goldlion.ecommerce.controller;
 
 import com.gmail.goldlion.ecommerce.dto.GraphQLRequestDto;
+import com.gmail.goldlion.ecommerce.dto.order.OrderRequestDto;
 import com.gmail.goldlion.ecommerce.dto.order.OrderResponseDto;
 import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeRequestDto;
 import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeResponseDto;
@@ -63,6 +64,11 @@ public class AdminController {
     @PostMapping("/order")
     public ResponseEntity<List<OrderResponseDto>> getUserOrdersByEmail(@RequestBody UserRequestDto user) {
         return ResponseEntity.ok(orderMapper.findOrderByEmail(user.getEmail()));
+    }
+
+    @DeleteMapping("/order/delete/{orderId}")
+    public ResponseEntity<List<OrderResponseDto>> deleteOrder(@PathVariable(value = "orderId") Long orderId) {
+        return ResponseEntity.ok(orderMapper.deleteOrder(orderId));
     }
 
     @GetMapping("/user/{id}")
