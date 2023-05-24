@@ -6,6 +6,7 @@ import com.gmail.goldlion.ecommerce.dto.order.OrderRequestDto;
 import com.gmail.goldlion.ecommerce.dto.order.OrderResponseDto;
 import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeResponseDto;
 import com.gmail.goldlion.ecommerce.dto.review.ReviewRequestDto;
+import com.gmail.goldlion.ecommerce.dto.review.ReviewResponseDto;
 import com.gmail.goldlion.ecommerce.dto.user.UserRequestDto;
 import com.gmail.goldlion.ecommerce.dto.user.UserResponseDto;
 import com.gmail.goldlion.ecommerce.exception.InputFieldException;
@@ -33,6 +34,7 @@ public class UserController {
     private final UserMapper userMapper;
     private final OrderMapper orderMapper;
     private final GraphQLProvider graphQLProvider;
+    private final ControllerUtils controllerUtils;
 
     @GetMapping("/info")
     public ResponseEntity<UserResponseDto> getUserInfo(@AuthenticationPrincipal UserPrincipal user) {
@@ -61,11 +63,10 @@ public class UserController {
                                                      BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
-        } else if (ControllerUtils.isPasswordDifferent(passwordReset.getPassword(), passwordReset.getPassword2())) {
+        } else if (controllerUtils.isPasswordDifferent(passwordReset.getPassword(), passwordReset.getPassword2())) {
             throw new PasswordException("Passwords do not match.");
         } else {
-            userMapper.passwordReset(user.getEmail(), passwordReset.getPassword());
-            return ResponseEntity.ok("Password successfully changed!");
+            return ResponseEntity.ok(userMapper.passwordReset(user.getEmail(), passwordReset.getPassword()));
         }
     }
 
@@ -93,18 +94,13 @@ public class UserController {
         }
     }
 
-    @GetMapping("/order/finalize")
-    public ResponseEntity<Long> finalizeOrder() {
-        return ResponseEntity.ok(orderMapper.finalizeOrder());
-    }
-
     @PostMapping("/review")
-    public ResponseEntity<String> addReviewToPerfume(@Valid @RequestBody ReviewRequestDto review, BindingResult bindingResult) {
+    public ResponseEntity<PerfumeResponseDto> addReviewToPerfume(@Valid @RequestBody ReviewRequestDto review,
+                                                                 BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
-            userMapper.addReviewToPerfume(review, review.getPerfumeId());
-            return ResponseEntity.ok("Review added successfully.");
+            return ResponseEntity.ok(userMapper.addReviewToPerfume(review, review.getPerfumeId()));
         }
     }
 }

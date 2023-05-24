@@ -1,10 +1,8 @@
 package com.gmail.goldlion.ecommerce.mapper;
 
 import com.gmail.goldlion.ecommerce.domain.Order;
-import com.gmail.goldlion.ecommerce.domain.Perfume;
 import com.gmail.goldlion.ecommerce.dto.order.OrderRequestDto;
 import com.gmail.goldlion.ecommerce.dto.order.OrderResponseDto;
-import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeResponseDto;
 import com.gmail.goldlion.ecommerce.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -48,9 +46,5 @@ public class OrderMapper {
 
     public OrderResponseDto postOrder(OrderRequestDto orderRequestDto) {
         return convertToResponseDto(orderService.postOrder(convertToEntity(orderRequestDto), orderRequestDto.getPerfumesId()));
-    }
-
-    public Long finalizeOrder() {
-        return orderService.finalizeOrder();
     }
 }
