@@ -3,10 +3,9 @@ package com.gmail.goldlion.ecommerce.mapper;
 import com.gmail.goldlion.ecommerce.domain.Review;
 import com.gmail.goldlion.ecommerce.domain.User;
 import com.gmail.goldlion.ecommerce.dto.RegistrationRequestDto;
-import com.gmail.goldlion.ecommerce.dto.review.ReviewRequestDto;
-import com.gmail.goldlion.ecommerce.dto.review.ReviewResponseDto;
-import com.gmail.goldlion.ecommerce.dto.user.UserRequestDto;
 import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeResponseDto;
+import com.gmail.goldlion.ecommerce.dto.review.ReviewRequestDto;
+import com.gmail.goldlion.ecommerce.dto.user.UserRequestDto;
 import com.gmail.goldlion.ecommerce.dto.user.UserResponseDto;
 import com.gmail.goldlion.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +34,6 @@ public class UserMapper {
 
     private Review convertToEntity(ReviewRequestDto reviewRequestDto) {
         return modelMapper.map(reviewRequestDto, Review.class);
-    }
-
-    private ReviewResponseDto convertToResponseDto(Review review) {
-        return modelMapper.map(review, ReviewResponseDto.class);
     }
 
     public UserResponseDto convertToResponseDto(User user) {
