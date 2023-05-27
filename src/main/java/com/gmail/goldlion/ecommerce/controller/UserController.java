@@ -6,7 +6,6 @@ import com.gmail.goldlion.ecommerce.dto.order.OrderRequestDto;
 import com.gmail.goldlion.ecommerce.dto.order.OrderResponseDto;
 import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeResponseDto;
 import com.gmail.goldlion.ecommerce.dto.review.ReviewRequestDto;
-import com.gmail.goldlion.ecommerce.dto.review.ReviewResponseDto;
 import com.gmail.goldlion.ecommerce.dto.user.UserRequestDto;
 import com.gmail.goldlion.ecommerce.dto.user.UserResponseDto;
 import com.gmail.goldlion.ecommerce.exception.InputFieldException;
@@ -19,6 +18,7 @@ import com.gmail.goldlion.ecommerce.utils.ControllerUtils;
 import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +35,7 @@ public class UserController {
     private final OrderMapper orderMapper;
     private final GraphQLProvider graphQLProvider;
     private final ControllerUtils controllerUtils;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @GetMapping("/info")
     public ResponseEntity<UserResponseDto> getUserInfo(@AuthenticationPrincipal UserPrincipal user) {
@@ -100,7 +101,9 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
-            return ResponseEntity.ok(userMapper.addReviewToPerfume(review, review.getPerfumeId()));
+            PerfumeResponseDto perfume = userMapper.addReviewToPerfume(review, review.getPerfumeId());
+            messagingTemplate.convertAndSend("/topic/reviews/" + perfume.getId(), perfume);
+            return ResponseEntity.ok(perfume);
         }
     }
 }
