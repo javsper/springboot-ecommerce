@@ -6,6 +6,7 @@ import com.gmail.goldlion.ecommerce.dto.PasswordResetRequestDto;
 import com.gmail.goldlion.ecommerce.dto.order.OrderRequestDto;
 import com.gmail.goldlion.ecommerce.dto.review.ReviewRequestDto;
 import com.gmail.goldlion.ecommerce.dto.user.UserRequestDto;
+import com.gmail.goldlion.ecommerce.security.JwtAuthenticationException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,12 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.id").isNotEmpty())
                 .andExpect(jsonPath("$.email").value(ADMIN_EMAIL))
                 .andExpect(jsonPath("$.roles").value(ROLE_ADMIN));
+    }
+
+    @Test(expected = JwtAuthenticationException.class)
+    public void getUserInfoByJwtExpired() throws Exception {
+        mockMvc.perform(get(URL_USERS_BASIC + "/info").header("Authorization", "jwt"))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
