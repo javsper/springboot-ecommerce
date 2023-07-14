@@ -1,9 +1,9 @@
-package com.gmail.goldlion.ecommerce.dto;
+package com.gmail.goldlion.ecommerce.dto.auth;
 
 import lombok.Data;
 
 @Data
-public class AuthenticationRequestDto {
+public class AuthenticationRequest {
     private String email;
     private String password;
 }

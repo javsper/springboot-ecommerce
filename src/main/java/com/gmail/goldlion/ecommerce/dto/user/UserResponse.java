@@ -3,19 +3,14 @@ package com.gmail.goldlion.ecommerce.dto.user;
 import com.gmail.goldlion.ecommerce.domain.Role;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Data
-public class UserRequestDto {
-
-    @NotBlank(message = "First name cannot be empty")
-    private String firstName;
-
-    @NotBlank(message = "Last name cannot be empty")
-    private String lastName;
-
+public class UserResponse {
+    private Long id;
     private String email;
+    private String firstName;
+    private String lastName;
     private String city;
     private String address;
     private String phoneNumber;

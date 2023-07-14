@@ -1,8 +1,8 @@
 package com.gmail.goldlion.ecommerce.mapper;
 
 import com.gmail.goldlion.ecommerce.domain.Order;
-import com.gmail.goldlion.ecommerce.dto.order.OrderRequestDto;
-import com.gmail.goldlion.ecommerce.dto.order.OrderResponseDto;
+import com.gmail.goldlion.ecommerce.dto.order.OrderRequest;
+import com.gmail.goldlion.ecommerce.dto.order.OrderResponse;
 import com.gmail.goldlion.ecommerce.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -18,33 +18,33 @@ public class OrderMapper {
     private final ModelMapper modelMapper;
     private final OrderService orderService;
 
-    private Order convertToEntity(OrderRequestDto orderRequestDto) {
-        return modelMapper.map(orderRequestDto, Order.class);
+    private Order convertToEntity(OrderRequest orderRequest) {
+        return modelMapper.map(orderRequest, Order.class);
     }
 
-    private OrderResponseDto convertToResponseDto(Order order) {
-        return modelMapper.map(order, OrderResponseDto.class);
+    private OrderResponse convertToResponseDto(Order order) {
+        return modelMapper.map(order, OrderResponse.class);
     }
 
-    private List<OrderResponseDto> convertListToResponseDto(List<Order> orders) {
+    private List<OrderResponse> convertListToResponseDto(List<Order> orders) {
         return orders.stream()
                 .map(this::convertToResponseDto)
                 .collect(Collectors.toList());
     }
 
-    public List<OrderResponseDto> findAllOrders() {
+    public List<OrderResponse> findAllOrders() {
         return convertListToResponseDto(orderService.findAll());
     }
 
-    public List<OrderResponseDto> findOrderByEmail(String email) {
+    public List<OrderResponse> findOrderByEmail(String email) {
         return convertListToResponseDto(orderService.findOrderByEmail(email));
     }
 
-    public List<OrderResponseDto> deleteOrder(Long orderId) {
+    public List<OrderResponse> deleteOrder(Long orderId) {
         return convertListToResponseDto(orderService.deleteOrder(orderId));
     }
 
-    public OrderResponseDto postOrder(OrderRequestDto orderRequestDto) {
-        return convertToResponseDto(orderService.postOrder(convertToEntity(orderRequestDto), orderRequestDto.getPerfumesId()));
+    public OrderResponse postOrder(OrderRequest orderRequest) {
+        return convertToResponseDto(orderService.postOrder(convertToEntity(orderRequest), orderRequest.getPerfumesId()));
     }
 }
