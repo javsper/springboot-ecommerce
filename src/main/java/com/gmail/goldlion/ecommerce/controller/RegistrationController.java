@@ -1,7 +1,6 @@
 package com.gmail.goldlion.ecommerce.controller;
 
 import com.gmail.goldlion.ecommerce.dto.RegistrationRequest;
-import com.gmail.goldlion.ecommerce.exception.InputFieldException;
 import com.gmail.goldlion.ecommerce.mapper.AuthenticationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +18,7 @@ public class RegistrationController {
 
     @PostMapping
     public ResponseEntity<String> registration(@Valid @RequestBody RegistrationRequest user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new InputFieldException(bindingResult);
-        }
-        return ResponseEntity.ok(authenticationMapper.registerUser(user.getCaptcha(), user));
+        return ResponseEntity.ok(authenticationMapper.registerUser(user.getCaptcha(), user, bindingResult));
     }
 
     @GetMapping("/activate/{code}")

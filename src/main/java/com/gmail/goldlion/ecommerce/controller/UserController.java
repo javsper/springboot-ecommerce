@@ -7,7 +7,6 @@ import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeResponse;
 import com.gmail.goldlion.ecommerce.dto.review.ReviewRequest;
 import com.gmail.goldlion.ecommerce.dto.user.UserRequest;
 import com.gmail.goldlion.ecommerce.dto.user.UserResponse;
-import com.gmail.goldlion.ecommerce.exception.InputFieldException;
 import com.gmail.goldlion.ecommerce.mapper.OrderMapper;
 import com.gmail.goldlion.ecommerce.mapper.UserMapper;
 import com.gmail.goldlion.ecommerce.security.UserPrincipal;
@@ -47,11 +46,7 @@ public class UserController {
     public ResponseEntity<UserResponse> updateUserInfo(@AuthenticationPrincipal UserPrincipal user,
                                                        @Valid @RequestBody UserRequest request,
                                                        BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new InputFieldException(bindingResult);
-        } else {
-            return ResponseEntity.ok(userMapper.updateProfile(user.getEmail(), request));
-        }
+        return ResponseEntity.ok(userMapper.updateProfile(user.getEmail(), request, bindingResult));
     }
 
     @PostMapping("/cart")
@@ -71,22 +66,13 @@ public class UserController {
 
     @PostMapping("/order")
     public ResponseEntity<OrderResponse> postOrder(@Valid @RequestBody OrderRequest order, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new InputFieldException(bindingResult);
-        } else {
-            return ResponseEntity.ok(orderMapper.postOrder(order));
-        }
+        return ResponseEntity.ok(orderMapper.postOrder(order, bindingResult));
     }
 
     @PostMapping("/review")
-    public ResponseEntity<PerfumeResponse> addReviewToPerfume(@Valid @RequestBody ReviewRequest review,
-                                                              BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new InputFieldException(bindingResult);
-        } else {
-            PerfumeResponse perfume = userMapper.addReviewToPerfume(review, review.getPerfumeId());
-            messagingTemplate.convertAndSend("/topic/reviews/" + perfume.getId(), perfume);
-            return ResponseEntity.ok(perfume);
-        }
+    public ResponseEntity<PerfumeResponse> addReviewToPerfume(@Valid @RequestBody ReviewRequest review, BindingResult bindingResult) {
+        PerfumeResponse perfume = userMapper.addReviewToPerfume(review, review.getPerfumeId(), bindingResult);
+        messagingTemplate.convertAndSend("/topic/reviews/" + perfume.getId(), perfume);
+        return ResponseEntity.ok(perfume);
     }
 }

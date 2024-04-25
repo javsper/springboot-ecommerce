@@ -3,12 +3,15 @@ package com.gmail.goldlion.ecommerce.service.Impl;
 import com.gmail.goldlion.ecommerce.domain.Perfume;
 import com.gmail.goldlion.ecommerce.domain.Review;
 import com.gmail.goldlion.ecommerce.domain.User;
+import com.gmail.goldlion.ecommerce.exception.ApiRequestException;
 import com.gmail.goldlion.ecommerce.repository.PerfumeRepository;
 import com.gmail.goldlion.ecommerce.repository.ReviewRepository;
 import com.gmail.goldlion.ecommerce.repository.UserRepository;
 import com.gmail.goldlion.ecommerce.service.UserService;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,12 +26,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserById(Long userId) {
-        return userRepository.findById(userId).get();
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new ApiRequestException("User not found.", HttpStatus.NOT_FOUND)); // TODO add test
     }
 
     @Override
     public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ApiRequestException("Email not found.", HttpStatus.NOT_FOUND)); // TODO add test
     }
 
     @Override
@@ -56,7 +61,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateProfile(String email, User user) {
-        User userFromDb = userRepository.findByEmail(email);
+        User userFromDb = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ApiRequestException("Email not found.", HttpStatus.NOT_FOUND)); // TODO add test
         userFromDb.setFirstName(user.getFirstName());
         userFromDb.setLastName(user.getLastName());
         userFromDb.setCity(user.getCity());

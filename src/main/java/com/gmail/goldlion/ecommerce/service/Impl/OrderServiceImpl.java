@@ -3,13 +3,17 @@ package com.gmail.goldlion.ecommerce.service.Impl;
 import com.gmail.goldlion.ecommerce.domain.Order;
 import com.gmail.goldlion.ecommerce.domain.OrderItem;
 import com.gmail.goldlion.ecommerce.domain.Perfume;
+import com.gmail.goldlion.ecommerce.exception.ApiRequestException;
 import com.gmail.goldlion.ecommerce.repository.OrderItemRepository;
 import com.gmail.goldlion.ecommerce.repository.OrderRepository;
 import com.gmail.goldlion.ecommerce.repository.PerfumeRepository;
 import com.gmail.goldlion.ecommerce.service.OrderService;
 import com.gmail.goldlion.ecommerce.service.email.MailSender;
+
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -87,7 +91,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public List<Order> deleteOrder(Long orderId) {
-        Order order = orderRepository.findById(orderId).get();
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ApiRequestException("Order not found.", HttpStatus.NOT_FOUND)); // TODO add test
         order.getOrderItems().forEach(orderItem -> orderItemRepository.deleteById(orderItem.getId()));
         orderRepository.delete(order);
         return orderRepository.findAllByOrderByIdAsc();
