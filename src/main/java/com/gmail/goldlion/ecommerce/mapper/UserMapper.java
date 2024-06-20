@@ -2,8 +2,10 @@ package com.gmail.goldlion.ecommerce.mapper;
 
 import com.gmail.goldlion.ecommerce.domain.Review;
 import com.gmail.goldlion.ecommerce.domain.User;
-import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeResponse;
+import com.gmail.goldlion.ecommerce.dto.perfume.FullPerfumeResponse;
 import com.gmail.goldlion.ecommerce.dto.review.ReviewRequest;
+import com.gmail.goldlion.ecommerce.dto.review.ReviewResponse;
+import com.gmail.goldlion.ecommerce.dto.user.BaseUserResponse;
 import com.gmail.goldlion.ecommerce.dto.user.UserRequest;
 import com.gmail.goldlion.ecommerce.dto.user.UserResponse;
 import com.gmail.goldlion.ecommerce.exception.InputFieldException;
@@ -29,12 +31,12 @@ public class UserMapper {
         return commonMapper.convertToResponse(userService.findUserByEmail(email), UserResponse.class);
     }
 
-    public List<PerfumeResponse> getCart(List<Long> perfumesIds) {
-        return commonMapper.convertToResponseList(userService.getCart(perfumesIds), PerfumeResponse.class);
+    public List<FullPerfumeResponse> getCart(List<Long> perfumesIds) {
+        return commonMapper.convertToResponseList(userService.getCart(perfumesIds), FullPerfumeResponse.class);
     }
 
-    public List<UserResponse> findAllUsers() {
-        return commonMapper.convertToResponseList(userService.findAllUsers(), UserResponse.class);
+    public List<BaseUserResponse> findAllUsers() {
+        return commonMapper.convertToResponseList(userService.findAllUsers(), BaseUserResponse.class);
     }
 
     public UserResponse updateProfile(String email, UserRequest userRequest, BindingResult bindingResult) {
@@ -45,11 +47,11 @@ public class UserMapper {
         return commonMapper.convertToResponse(userService.updateProfile(email, user), UserResponse.class);
     }
 
-    public PerfumeResponse addReviewToPerfume(ReviewRequest reviewRequest, Long perfumeId, BindingResult bindingResult) {
+    public ReviewResponse addReviewToPerfume(ReviewRequest reviewRequest, Long perfumeId, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         }
         Review review = commonMapper.convertToEntity(reviewRequest, Review.class);
-        return commonMapper.convertToResponse(userService.addReviewToPerfume(review, perfumeId), PerfumeResponse.class);
+        return commonMapper.convertToResponse(userService.addReviewToPerfume(review, perfumeId), ReviewResponse.class);
     }
 }

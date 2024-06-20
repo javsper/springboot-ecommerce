@@ -3,7 +3,6 @@ package com.gmail.goldlion.ecommerce.controller;
 import com.gmail.goldlion.ecommerce.dto.PasswordResetRequest;
 import com.gmail.goldlion.ecommerce.dto.auth.AuthenticationRequest;
 import com.gmail.goldlion.ecommerce.dto.auth.AuthenticationResponse;
-import com.gmail.goldlion.ecommerce.dto.user.UserResponse;
 import com.gmail.goldlion.ecommerce.exception.InputFieldException;
 import com.gmail.goldlion.ecommerce.mapper.AuthenticationMapper;
 import com.gmail.goldlion.ecommerce.security.UserPrincipal;
@@ -33,8 +32,8 @@ public class AuthenticationController {
     }
 
     @GetMapping("/reset/{code}")
-    public ResponseEntity<UserResponse> getPasswordResetCode(@PathVariable String code) {
-        return ResponseEntity.ok(authenticationMapper.findByPasswordResetCode(code));
+    public ResponseEntity<String> getEmailByPasswordResetCode(@PathVariable String code) {
+        return ResponseEntity.ok(authenticationMapper.getEmailByPasswordResetCode(code));
     }
 
     @PostMapping("/reset")

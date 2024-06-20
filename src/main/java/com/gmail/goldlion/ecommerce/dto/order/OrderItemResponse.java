@@ -1,9 +1,11 @@
 package com.gmail.goldlion.ecommerce.dto.order;
 
 import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeResponse;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class OrderItemResponse {
     private Long id;
     private Long amount;
