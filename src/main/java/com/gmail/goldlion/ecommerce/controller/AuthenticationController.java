@@ -3,7 +3,6 @@ package com.gmail.goldlion.ecommerce.controller;
 import com.gmail.goldlion.ecommerce.dto.PasswordResetRequest;
 import com.gmail.goldlion.ecommerce.dto.auth.AuthenticationRequest;
 import com.gmail.goldlion.ecommerce.dto.auth.AuthenticationResponse;
-import com.gmail.goldlion.ecommerce.exception.InputFieldException;
 import com.gmail.goldlion.ecommerce.mapper.AuthenticationMapper;
 import com.gmail.goldlion.ecommerce.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
@@ -26,9 +25,9 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationMapper.login(request));
     }
 
-    @PostMapping("/forgot")
-    public ResponseEntity<String> forgotPassword(@RequestBody PasswordResetRequest passwordReset) {
-        return ResponseEntity.ok(authenticationMapper.sendPasswordResetCode(passwordReset.getEmail()));
+    @GetMapping("/forgot/{email}")
+    public ResponseEntity<String> forgotPassword(@PathVariable String email) {
+        return ResponseEntity.ok(authenticationMapper.sendPasswordResetCode(email));
     }
 
     @GetMapping("/reset/{code}")
@@ -45,10 +44,6 @@ public class AuthenticationController {
     public ResponseEntity<String> updateUserPassword(@AuthenticationPrincipal UserPrincipal user,
                                                      @Valid @RequestBody PasswordResetRequest passwordReset,
                                                      BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new InputFieldException(bindingResult);
-        } else {
-            return ResponseEntity.ok(authenticationMapper.passwordReset(user.getEmail(), passwordReset));
-        }
+        return ResponseEntity.ok(authenticationMapper.passwordReset(user.getEmail(), passwordReset, bindingResult));
     }
 }
