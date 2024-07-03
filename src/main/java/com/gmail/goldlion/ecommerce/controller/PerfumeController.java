@@ -1,9 +1,10 @@
 package com.gmail.goldlion.ecommerce.controller;
 
 import com.gmail.goldlion.ecommerce.dto.GraphQLRequest;
-import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeResponse;
 import com.gmail.goldlion.ecommerce.dto.perfume.FullPerfumeResponse;
+import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeResponse;
 import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeSearchRequest;
+import com.gmail.goldlion.ecommerce.dto.perfume.SearchTypeRequest;
 import com.gmail.goldlion.ecommerce.dto.review.ReviewResponse;
 import com.gmail.goldlion.ecommerce.mapper.PerfumeMapper;
 import com.gmail.goldlion.ecommerce.service.graphql.GraphQLProvider;
@@ -55,6 +56,11 @@ public class PerfumeController {
     @PostMapping("/search/perfumer")
     public ResponseEntity<List<PerfumeResponse>> findByPerfumer(@RequestBody PerfumeSearchRequest filter) {
         return ResponseEntity.ok(perfumeMapper.findByPerfumer(filter.getPerfumer()));
+    }
+
+    @PostMapping("/search/text")
+    public ResponseEntity<List<PerfumeResponse>> findByInputText(@RequestBody SearchTypeRequest searchType) {
+        return ResponseEntity.ok(perfumeMapper.findByInputText(searchType.getSearchType(), searchType.getText()));
     }
 
     @PostMapping("/graphql/ids")

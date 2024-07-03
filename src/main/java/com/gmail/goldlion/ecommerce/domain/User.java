@@ -1,5 +1,7 @@
 package com.gmail.goldlion.ecommerce.domain;
 
+import com.gmail.goldlion.ecommerce.enums.AuthProvider;
+import com.gmail.goldlion.ecommerce.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

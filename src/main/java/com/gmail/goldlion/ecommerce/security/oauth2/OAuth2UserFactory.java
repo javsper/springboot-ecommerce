@@ -1,6 +1,6 @@
 package com.gmail.goldlion.ecommerce.security.oauth2;
 
-import com.gmail.goldlion.ecommerce.domain.AuthProvider;
+import com.gmail.goldlion.ecommerce.enums.AuthProvider;
 import lombok.SneakyThrows;
 
 import javax.naming.AuthenticationException;

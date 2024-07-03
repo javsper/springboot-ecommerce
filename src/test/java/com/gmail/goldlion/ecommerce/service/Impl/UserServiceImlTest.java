@@ -2,7 +2,7 @@ package com.gmail.goldlion.ecommerce.service.Impl;
 
 import com.gmail.goldlion.ecommerce.domain.Perfume;
 import com.gmail.goldlion.ecommerce.domain.Review;
-import com.gmail.goldlion.ecommerce.domain.Role;
+import com.gmail.goldlion.ecommerce.enums.Role;
 import com.gmail.goldlion.ecommerce.domain.User;
 import com.gmail.goldlion.ecommerce.repository.PerfumeRepository;
 import com.gmail.goldlion.ecommerce.repository.ReviewRepository;

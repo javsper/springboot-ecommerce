@@ -1,6 +1,6 @@
 package com.gmail.goldlion.ecommerce.dto.user;
 
-import com.gmail.goldlion.ecommerce.domain.Role;
+import com.gmail.goldlion.ecommerce.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
 

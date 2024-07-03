@@ -1,7 +1,7 @@
 package com.gmail.goldlion.ecommerce.service.Impl;
 
-import com.gmail.goldlion.ecommerce.domain.AuthProvider;
-import com.gmail.goldlion.ecommerce.domain.Role;
+import com.gmail.goldlion.ecommerce.enums.AuthProvider;
+import com.gmail.goldlion.ecommerce.enums.Role;
 import com.gmail.goldlion.ecommerce.domain.User;
 import com.gmail.goldlion.ecommerce.dto.CaptchaResponse;
 import com.gmail.goldlion.ecommerce.exception.ApiRequestException;

@@ -6,6 +6,7 @@ import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeRequest;
 import com.gmail.goldlion.ecommerce.dto.perfume.FullPerfumeResponse;
 import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeSearchRequest;
 import com.gmail.goldlion.ecommerce.dto.review.ReviewResponse;
+import com.gmail.goldlion.ecommerce.enums.SearchPerfume;
 import com.gmail.goldlion.ecommerce.exception.InputFieldException;
 import com.gmail.goldlion.ecommerce.service.PerfumeService;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,10 @@ public class PerfumeMapper {
 
     public List<PerfumeResponse> findByPerfumeGender(String perfumeGender) {
         return commonMapper.convertToResponseList(perfumeService.findByPerfumeGender(perfumeGender), PerfumeResponse.class);
+    }
+    
+    public List<PerfumeResponse> findByInputText(SearchPerfume searchType, String text) {
+        return commonMapper.convertToResponseList(perfumeService.findByInputText(searchType, text), PerfumeResponse.class);
     }
 
     public FullPerfumeResponse savePerfume(PerfumeRequest perfumeRequest, MultipartFile file, BindingResult bindingResult) {

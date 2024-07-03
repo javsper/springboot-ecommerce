@@ -2,6 +2,7 @@ package com.gmail.goldlion.ecommerce.service;
 
 import com.gmail.goldlion.ecommerce.domain.Perfume;
 import com.gmail.goldlion.ecommerce.domain.Review;
+import com.gmail.goldlion.ecommerce.enums.SearchPerfume;
 import graphql.schema.DataFetcher;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +21,8 @@ public interface PerfumeService {
     List<Perfume> findByPerfumer(String perfumer);
 
     List<Perfume> findByPerfumeGender(String perfumeGender);
+    
+    List<Perfume> findByInputText(SearchPerfume searchType, String text);
 
     Perfume savePerfume(Perfume perfume, MultipartFile file);
 
