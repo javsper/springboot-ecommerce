@@ -2,6 +2,7 @@ package com.gmail.goldlion.ecommerce.mapper;
 
 import com.gmail.goldlion.ecommerce.domain.Review;
 import com.gmail.goldlion.ecommerce.domain.User;
+import com.gmail.goldlion.ecommerce.dto.HeaderResponse;
 import com.gmail.goldlion.ecommerce.dto.perfume.FullPerfumeResponse;
 import com.gmail.goldlion.ecommerce.dto.review.ReviewRequest;
 import com.gmail.goldlion.ecommerce.dto.review.ReviewResponse;
@@ -11,6 +12,9 @@ import com.gmail.goldlion.ecommerce.dto.user.UserResponse;
 import com.gmail.goldlion.ecommerce.exception.InputFieldException;
 import com.gmail.goldlion.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
@@ -37,6 +41,11 @@ public class UserMapper {
 
     public List<BaseUserResponse> getAllUsers() {
         return commonMapper.convertToResponseList(userService.getAllUsers(), BaseUserResponse.class);
+    }
+
+    public HeaderResponse<BaseUserResponse> getAllUsers(Pageable pageable) {
+        Page<User> users = userService.getAllUsers(pageable);
+        return commonMapper.getHeaderResponse(users.getContent(), users.getTotalPages(), users.getTotalElements(), BaseUserResponse.class);
     }
 
     public UserResponse updateUserInfo(String email, UpdateUserRequest userRequest, BindingResult bindingResult) {

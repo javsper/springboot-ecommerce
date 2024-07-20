@@ -1,6 +1,7 @@
 package com.gmail.goldlion.ecommerce.controller;
 
 import com.gmail.goldlion.ecommerce.dto.GraphQLRequest;
+import com.gmail.goldlion.ecommerce.dto.HeaderResponse;
 import com.gmail.goldlion.ecommerce.dto.order.OrderResponse;
 import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeRequest;
 import com.gmail.goldlion.ecommerce.dto.perfume.FullPerfumeResponse;
@@ -12,6 +13,9 @@ import com.gmail.goldlion.ecommerce.mapper.UserMapper;
 import com.gmail.goldlion.ecommerce.service.graphql.GraphQLProvider;
 import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -56,6 +60,12 @@ public class AdminController {
         return ResponseEntity.ok(orderMapper.getAllOrders());
     }
 
+    @GetMapping("/orders/pageable")
+    public ResponseEntity<List<OrderResponse>> getAllOrders(@PageableDefault(size = 10) Pageable pageable) {
+        HeaderResponse<OrderResponse> response = orderMapper.getAllOrders(pageable);
+        return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());
+    }
+
     @GetMapping("/order/{userEmail}")
     public ResponseEntity<List<OrderResponse>> getUserOrdersByEmail(@PathVariable String userEmail) {
         return ResponseEntity.ok(orderMapper.getUserOrders(userEmail));
@@ -74,6 +84,12 @@ public class AdminController {
     @GetMapping("/user/all")
     public ResponseEntity<List<BaseUserResponse>> getAllUsers() {
         return ResponseEntity.ok(userMapper.getAllUsers());
+    }
+
+    @GetMapping("/user/all/pageable")
+    public ResponseEntity<List<BaseUserResponse>> getAllUsers(@PageableDefault(size = 10) Pageable pageable) {
+        HeaderResponse<BaseUserResponse> response = userMapper.getAllUsers(pageable);
+        return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());
     }
 
     @PostMapping("/graphql/user")
