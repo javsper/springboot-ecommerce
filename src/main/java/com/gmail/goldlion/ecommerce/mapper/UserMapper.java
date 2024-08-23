@@ -3,7 +3,7 @@ package com.gmail.goldlion.ecommerce.mapper;
 import com.gmail.goldlion.ecommerce.domain.Review;
 import com.gmail.goldlion.ecommerce.domain.User;
 import com.gmail.goldlion.ecommerce.dto.HeaderResponse;
-import com.gmail.goldlion.ecommerce.dto.perfume.FullPerfumeResponse;
+import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeResponse;
 import com.gmail.goldlion.ecommerce.dto.review.ReviewRequest;
 import com.gmail.goldlion.ecommerce.dto.review.ReviewResponse;
 import com.gmail.goldlion.ecommerce.dto.user.BaseUserResponse;
@@ -35,8 +35,8 @@ public class UserMapper {
         return commonMapper.convertToResponse(userService.getUserInfo(email), UserResponse.class);
     }
 
-    public List<FullPerfumeResponse> getCart(List<Long> perfumesIds) {
-        return commonMapper.convertToResponseList(userService.getCart(perfumesIds), FullPerfumeResponse.class);
+    public List<PerfumeResponse> getCart(List<Long> perfumesIds) {
+        return commonMapper.convertToResponseList(userService.getCart(perfumesIds), PerfumeResponse.class);
     }
 
     public HeaderResponse<BaseUserResponse> getAllUsers(Pageable pageable) {
