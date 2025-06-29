@@ -2,14 +2,15 @@ package com.gmail.goldlion.ecommerce.mapper;
 
 import com.gmail.goldlion.ecommerce.domain.Perfume;
 import com.gmail.goldlion.ecommerce.dto.HeaderResponse;
-import com.gmail.goldlion.ecommerce.dto.perfume.*;
-import com.gmail.goldlion.ecommerce.dto.review.ReviewResponse;
+import com.gmail.goldlion.ecommerce.dto.perfume.FullPerfumeResponse;
+import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeRequest;
+import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeResponse;
+import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeSearchRequest;
 import com.gmail.goldlion.ecommerce.enums.SearchPerfume;
 import com.gmail.goldlion.ecommerce.exception.InputFieldException;
 import com.gmail.goldlion.ecommerce.repository.projection.PerfumeProjection;
 import com.gmail.goldlion.ecommerce.service.PerfumeService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -29,10 +30,6 @@ public class PerfumeMapper {
         return commonMapper.convertToResponse(perfumeService.getPerfumeById(perfumeId), FullPerfumeResponse.class);
     }
 
-    public List<ReviewResponse> getReviewsByPerfumeId(Long perfumeId) {
-        return commonMapper.convertToResponseList(perfumeService.getReviewsByPerfumeId(perfumeId), ReviewResponse.class);
-    }
-
     public List<PerfumeResponse> getPerfumesByIds(List<Long> perfumesId) {
         return commonMapper.convertToResponseList(perfumeService.getPerfumesByIds(perfumesId), PerfumeResponse.class);
     }
@@ -43,8 +40,7 @@ public class PerfumeMapper {
     }
 
     public HeaderResponse<PerfumeResponse> findPerfumesByFilterParams(PerfumeSearchRequest filter, Pageable pageable) {
-        Page<PerfumeProjection> perfumes = perfumeService.findPerfumesByFilterParams(filter.getPerfumers(), filter.getGenders(), 
-                filter.getPrices(), filter.getSortByPrice(), pageable);
+        Page<PerfumeProjection> perfumes = perfumeService.findPerfumesByFilterParams(filter, pageable);
         return commonMapper.getHeaderResponse(perfumes.getContent(), perfumes.getTotalPages(), perfumes.getTotalElements(), PerfumeResponse.class);
     }
 

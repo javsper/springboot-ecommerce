@@ -1,18 +1,14 @@
 package com.gmail.goldlion.ecommerce.mapper;
 
-import com.gmail.goldlion.ecommerce.domain.Review;
 import com.gmail.goldlion.ecommerce.domain.User;
 import com.gmail.goldlion.ecommerce.dto.HeaderResponse;
 import com.gmail.goldlion.ecommerce.dto.perfume.PerfumeResponse;
-import com.gmail.goldlion.ecommerce.dto.review.ReviewRequest;
-import com.gmail.goldlion.ecommerce.dto.review.ReviewResponse;
 import com.gmail.goldlion.ecommerce.dto.user.BaseUserResponse;
 import com.gmail.goldlion.ecommerce.dto.user.UpdateUserRequest;
 import com.gmail.goldlion.ecommerce.dto.user.UserResponse;
 import com.gmail.goldlion.ecommerce.exception.InputFieldException;
 import com.gmail.goldlion.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -50,13 +46,5 @@ public class UserMapper {
         }
         User user = commonMapper.convertToEntity(userRequest, User.class);
         return commonMapper.convertToResponse(userService.updateUserInfo(email, user), UserResponse.class);
-    }
-
-    public ReviewResponse addReviewToPerfume(ReviewRequest reviewRequest, Long perfumeId, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new InputFieldException(bindingResult);
-        }
-        Review review = commonMapper.convertToEntity(reviewRequest, Review.class);
-        return commonMapper.convertToResponse(userService.addReviewToPerfume(review, perfumeId), ReviewResponse.class);
     }
 }

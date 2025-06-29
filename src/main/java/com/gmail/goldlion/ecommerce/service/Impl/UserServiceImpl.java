@@ -1,16 +1,13 @@
 package com.gmail.goldlion.ecommerce.service.Impl;
 
 import com.gmail.goldlion.ecommerce.domain.Perfume;
-import com.gmail.goldlion.ecommerce.domain.Review;
 import com.gmail.goldlion.ecommerce.domain.User;
 import com.gmail.goldlion.ecommerce.exception.ApiRequestException;
 import com.gmail.goldlion.ecommerce.repository.PerfumeRepository;
-import com.gmail.goldlion.ecommerce.repository.ReviewRepository;
 import com.gmail.goldlion.ecommerce.repository.UserRepository;
 import com.gmail.goldlion.ecommerce.service.UserService;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -19,24 +16,26 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.gmail.goldlion.ecommerce.constants.ErrorMessage.EMAIL_NOT_FOUND;
+import static com.gmail.goldlion.ecommerce.constants.ErrorMessage.USER_NOT_FOUND;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PerfumeRepository perfumeRepository;
-    private final ReviewRepository reviewRepository;
 
     @Override
     public User getUserById(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new ApiRequestException("User not found.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApiRequestException(USER_NOT_FOUND, HttpStatus.NOT_FOUND));
     }
 
     @Override
     public User getUserInfo(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new ApiRequestException("Email not found.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApiRequestException(EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
     }
 
     @Override
@@ -53,7 +52,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User updateUserInfo(String email, User user) {
         User userFromDb = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ApiRequestException("Email not found.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApiRequestException(EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
         userFromDb.setFirstName(user.getFirstName());
         userFromDb.setLastName(user.getLastName());
         userFromDb.setCity(user.getCity());
@@ -61,19 +60,6 @@ public class UserServiceImpl implements UserService {
         userFromDb.setPhoneNumber(user.getPhoneNumber());
         userFromDb.setPostIndex(user.getPostIndex());
         return userFromDb;
-    }
-
-    @Override
-    @Transactional
-    public Review addReviewToPerfume(Review review, Long perfumeId) {
-        Perfume perfume = perfumeRepository.findById(perfumeId)
-                .orElseThrow(() -> new ApiRequestException("Perfume not found.", HttpStatus.NOT_FOUND));
-        List<Review> reviews = perfume.getReviews();
-        reviews.add(review);
-        double totalReviews = reviews.size();
-        double sumRating = reviews.stream().mapToInt(Review::getRating).sum();
-        perfume.setPerfumeRating(sumRating / totalReviews);
-        return reviewRepository.save(review);
     }
     
     @Override
